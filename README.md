@@ -1,14 +1,16 @@
 # NodeConnectionKit
 
-This is an howto and configuration files in order to best connect and use an external LND node (installed on a different server or on a cloud service like Voltage). What you need is:
+This is an howto and configuration files in order to best connect and use an external LND node (installed on a different server or on a cloud service like Voltage). In this howto we will suppose we are connecting to a Voltage node, but everything is similar in case of a connection to an external LND, no matter where and how it is configured. What you need is:
 
-- an external LND install or a Voltage node LND (not based on neutrino)
-- a small external VPS in order to install what you need. This may be a fresh ubuntu install with docker and docker-compose
-- a domain name you own which must point to the VPS IP address. let's say my.domain.com
+- an external LND install or a Voltage node LND (not those based on neutrino)
+- a small VPS in order to install what you need. This may be a fresh ubuntu install with docker and docker-compose
+- a domain name you own which must point to the VPS IP address. let's say my.domain.com . You need to have the possiblity to modify DNS records in order to later authentify the letsencrypt certificate.
 
-## Setup firewall
+## Basic security on the VPS
 
-on the VPS. Enable the firewall
+### Enable the firewall
+
+Only SSH and https traffic is permitted
 
 ```
 sudo ufw allow to any proto tcp port 22
@@ -17,8 +19,26 @@ sudo ufw enable
 sudo ufw status
 ```
 
-Allow connection only with SSH key authentication. Disallow password authentication and root login
+### Modify SSH configuration
 
+- Allow connection only with SSH key authentication
+- Disallow password authentication
+- Disallow root login
+
+### User configuration
+
+if you are root then:
+
+- add a standard user
+
+run the following commands
+
+```
+adduser YOURUSER docker
+adduser YOURUSER sudo
+```
+
+from now on, do everything as user YOURUSER
 
 ## Node configuration files
 
@@ -43,12 +63,12 @@ cp admin.macaroon ~/lnd/data/chain/bitcoin/mainnet/
 ```
 sudo apt-get install nginx
 sudo apt-get remove certbot
-snap install --classic certbot
 sudo snap install --classic certbot
 sudo ln -s /snap/bin/certbot /usr/bin/certbot
 ll /usr/bin/certbot
 sudo certbot certonly --manual --preferred-challenges dns
 ```
+
 With last command above you run the certbot in order to get the certs for your domain my.domain.com . At the end of process, you will have the cert installed in /etc/letsencrypt
 
 
