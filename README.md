@@ -1,16 +1,16 @@
 # NodeConnectionKit
 
-This is an howto and configuration files in order to best connect and use an external LND node (installed on a different server or on a cloud service like Voltage). In this howto we will suppose we are connecting to a Voltage node, but everything is similar in case of a connection to an external LND, no matter where and how it is configured. What you need is:
+This is an howto with example configuration files which goal is to best connect and use an external LND node (installed on a different server or on a cloud service like Voltage). In this howto we will suppose we are connecting to a Voltage node, but everything is similar in case of a connection to an external LND, no matter where and how it is configured. What you need is:
 
-- an external LND install or a Voltage node LND (not those based on neutrino)
-- a small VPS in order to install what you need. This may be a fresh ubuntu install with docker and docker-compose
-- a domain name you own which must point to the VPS IP address. let's say my.domain.com . You need to have the possiblity to modify DNS records in order to later authentify the letsencrypt certificate.
+- An external LND install or a Voltage node LND (not those based on neutrino);
+- A small VPS in order to install what you need. This may be a fresh ubuntu install with docker and docker-compose;
+- A domain name you own which must point to the VPS IP address. let's say my.domain.com . You need to have the possiblity to modify DNS records in order to later authentify the letsencrypt certificate;
 
 ## Basic security on the VPS
 
 ### Enable the firewall
 
-Only SSH and https traffic is permitted
+Allow Only SSH and https traffic.
 
 ```
 sudo ufw allow to any proto tcp port 22
@@ -38,7 +38,7 @@ adduser YOURUSER docker
 adduser YOURUSER sudo
 ```
 
-from now on, do everything as user YOURUSER
+from now on, do everything as user YOURUSER. This user will be also able to start the docker instances.
 
 ## Node configuration files
 
@@ -89,13 +89,16 @@ LND_REST_ENDPOINT=https://xxx.voltageapp.io:8080/
 LND_REST_CERT=""
 LND_REST_MACAROON="ADMINMACAROONXXXX"
 ```
-copy the docker-compose.yml and the .env file inside the lnbits directory. then:
+copy the docker-compose.yml and the .env file inside the lnbits directory.
+
+Build the image
 
 ```
 cd lnbits
 docker build -t lnbits .
 ```
-finally run
+
+finally run the containers
 
 ```
 docker-compose up -d
@@ -103,24 +106,27 @@ docker-compose up -d
 
 ### Configure nginx to proxy to LNBITS to my.domain.com
 
-in /etc/nginx/sites-available/default
+This is in order to call the lnbits instance from a customized domain name on the clear net.
 
-- empty the file, meaning that the file must be present but completely blank
-- now copy the example file my.domain.com.conf in the directory /etc/nginx/sites-enabled/ and make modifications you need
+Consider the file: /etc/nginx/sites-available/default
 
-create symbolic links
+- empty this file, meaning that the file must be present but completely blank;
+- now copy the example file my.domain.com.conf in the directory /etc/nginx/sites-enabled/ and make modifications you need;
+
+Create symbolic links
 
 ```
 ln -s /etc/nginx/sites-available/my.domain.com.conf /etc/nginx/sites-enabled/my.domain.com.conf
 ```
-enable nginx
+
+Enable nginx
 
 ```
 sudo systemctl enable nginx
 sudo systemctl start nginx
 ```
 
-now https://my.domain.com  will proxy the local lnbits install (lnbits must be running)
+Now https://my.domain.com  will proxy the local lnbits install (lnbits must be running)
 
 ## Install and configure rebalance-lnd
 
@@ -147,6 +153,12 @@ alias bos="docker run -it --rm -v /home/dev/.bos:/home/node/.bos alexbosworth/ba
 
 ### Run the telegram daemon
 
+install tmux
+
+```
+ sudo apt-get install tmux 
+```
+
 First of all create a bot on telegram with botfather and get the api. First time you run the command, you will be asked of the api key and then a connection conde is returned on the bot in order to connect to your node.
 
 For definitely run, go in tmux
@@ -155,6 +167,8 @@ For definitely run, go in tmux
 bos telegram --connect CONNECT_CODE
 ```
 
-then exit the tmux with CTRL+b+d
+- to exit the tmux with CTRL+b+d
+- to reenter tmux attach -t 0
 
-to reenter tmux attach -t 0
+
+TO BE CONTINUED ..
