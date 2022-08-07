@@ -1,4 +1,4 @@
-# NodeConnectionKit
+# LNDConnectionKit
 
 This is an howto with example configuration files which goal is to best connect and use an external LND node (installed on a different server or on a cloud service like Voltage). In this howto we will suppose we are connecting to a Voltage node, but everything is similar in case of a connection to an external LND, no matter where and how it is configured. What you need is:
 
