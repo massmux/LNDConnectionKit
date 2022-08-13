@@ -85,7 +85,7 @@ modify the .env configuration file, adding the following lines. Please checkout 
 ```
 # BVB configuration
 LNBITS_BACKEND_WALLET_CLASS=LndRestWallet
-LND_REST_ENDPOINT=https://xxx.voltageapp.io:8080/
+LND_REST_ENDPOINT=https://xxxx.voltageapp.io:8080/
 LND_REST_CERT=""
 LND_REST_MACAROON="ADMINMACAROONXXXX"
 ```
@@ -137,7 +137,7 @@ docker pull rebalancelnd/rebalance-lnd:latest
 Now put on the .bashrc file of your user (not root), the following:
 
 ```
-alias rebalance-lnd="docker run --rm --network=host --add-host=host.docker.internal:host-gateway -it -v /home/dev/lnd:/root/.lnd rebalancelnd/rebalance-lnd --grpc XXXX.voltageapp.io:10009"
+alias rebalance-lnd="docker run --rm --network=host --add-host=host.docker.internal:host-gateway -it -v /home/dev/lnd:/root/.lnd rebalancelnd/rebalance-lnd --grpc xxxx.voltageapp.io:10009"
 ```
 
 ## Install and configure balance of satoshi
@@ -170,5 +170,25 @@ bos telegram --connect CONNECT_CODE
 - to exit the tmux with CTRL+b+d
 - to reenter tmux attach -t 0
 
+
+## Install and configure charge-lnd
+
+```
+docker pull accumulator/charge-lnd
+```
+
+Now create configuration file dir. Please bear in mind that in our case, the user is 'dev' so ~ is /home/dev
+
+```
+mkdir ~/charge-lnd
+```
+
+Copy inside the just created dir the config file (charge.config). An example is in this repository
+
+Now put on the .bashrc file of your user (not root), the following:
+
+```
+alias charge-lnd="docker run --rm -e LND_DIR=/data/.lnd -v /home/dev/charge-lnd:/app -v /home/dev/lnd:/data/.lnd -e GRPC_LOCATION=xxxx.voltageapp.io:10009 accumulator/charge-lnd"
+```
 
 TO BE CONTINUED ..
