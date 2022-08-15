@@ -146,10 +146,21 @@ alias rebalance-lnd="docker run --rm --network=host --add-host=host.docker.inter
 docker pull alexbosworth/balanceofsatoshis
 ```
 
-Now put on the .bashrc file of your user (not root), the following:
+Now put on the .bashrc file of your user (not root), the following (in case of Voltage install):
+
 ```
-alias bos="docker run -it --rm -v /home/dev/.bos:/home/node/.bos alexbosworth/balanceofsatoshis  --node=voltage"
+alias bos="docker run -it --rm -v /home/dev/lnd:/home/node/.lnd -v /home/dev/.bos:/home/node/.bos alexbosworth/balanceofsatoshis  --node=voltage"
 ```
+
+
+In case of Umbrel, the string is:
+
+```
+alias bos="docker run -it --rm --network=umbrel_main_network --add-host=bvb.local:10.21.21.9 -v /mnt/bvb-volume/umbrel/.bos:/home/node/.bos -v /mnt/bvb-volume/umbrel/app-data/lightning/data/lnd:/home/node/.lnd alexbosworth/balanceofsatoshis"
+```
+
+where the IP, is the IP you can find as LND_IP in file .env in the main dir of your Umbrel installation
+
 
 ### Run the telegram daemon
 
