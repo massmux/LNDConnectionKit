@@ -134,32 +134,43 @@ Now https://my.domain.com  will proxy the local lnbits install (lnbits must be r
 docker pull rebalancelnd/rebalance-lnd:latest
 ```
 
-Now put on the .bashrc file of your user (not root), the following:
+Now put on the .profile file of your user (not root), the following (for external LND or Voltage LND):
 
 ```
 alias rebalance-lnd="docker run --rm --network=host --add-host=host.docker.internal:host-gateway -it -v /home/dev/lnd:/root/.lnd rebalancelnd/rebalance-lnd --grpc xxxx.voltageapp.io:10009"
 ```
 
-## Install and configure balance of satoshi
+## Install and configure Balance of Satoshis
+
+A reminder: In this example the user we are using is `dev`, the home is then `/home/dev'.
+
+Create bos directory:
+
+```
+mkdir ~/.bos
+```
+
+Now pull balanceofsatoshis' image from docker repository
+
 
 ```
 docker pull alexbosworth/balanceofsatoshis
 ```
 
-Now put on the .bashrc file of your user (not root), the following (in case of Voltage install):
+Now put on the .profile file of your user (not root), the following (in case of Voltage install):
 
 ```
 alias bos="docker run -it --rm -v /home/dev/lnd:/home/node/.lnd -v /home/dev/.bos:/home/node/.bos alexbosworth/balanceofsatoshis  --node=voltage"
 ```
 
 
-In case of Umbrel, the string is:
+In case of Umbrel, the full command is different:
 
 ```
 alias bos="docker run -it --rm --network=umbrel_main_network --add-host=bvb.local:10.21.21.9 -v /mnt/bvb-volume/umbrel/.bos:/home/node/.bos -v /mnt/bvb-volume/umbrel/app-data/lightning/data/lnd:/home/node/.lnd alexbosworth/balanceofsatoshis"
 ```
 
-where the IP, is the IP you can find as LND_IP in file .env in the main dir of your Umbrel installation
+where the IP, is the IP you can find as LND_IP in file .env in the main dir of your Umbrel installation. Please also pay attention to the path to full data directory. In our case it was a VPS so it is /mnt/bvb-volume/umbrel. In case of raspberry it is different. Run `df -m` command to see the mounted partition's directory, this is the correct path
 
 
 ### Run the telegram daemon
@@ -170,7 +181,7 @@ install tmux
  sudo apt-get install tmux 
 ```
 
-First of all create a bot on telegram with botfather and get the api. First time you run the command, you will be asked of the api key and then a connection conde is returned on the bot in order to connect to your node.
+First of all create a bot on telegram with botfather and get the Api. First time you run the command, you will be asked of the api key and then a connection conde is returned on the bot in order to connect to your node.
 
 For definitely run, go in tmux
 
@@ -196,7 +207,7 @@ mkdir ~/charge-lnd
 
 Copy inside the just created dir the config file (charge.config). An example is in this repository
 
-Now put on the .bashrc file of your user (not root), the following:
+Now put on the .profile file of your user (not root), the following:
 
 ```
 alias charge-lnd="docker run --rm -e LND_DIR=/data/.lnd -v /home/dev/charge-lnd:/app -v /home/dev/lnd:/data/.lnd -e GRPC_LOCATION=xxxx.voltageapp.io:10009 accumulator/charge-lnd"
