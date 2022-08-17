@@ -142,7 +142,7 @@ alias rebalance-lnd="docker run --rm --network=host --add-host=host.docker.inter
 
 ## Install and configure Balance of Satoshis
 
-A reminder: In this example the user we are using is `dev`, the home is then `/home/dev'.
+A reminder: In this example the user we are using is `dev`, the home is then `/home/dev`.
 
 Create bos directory:
 
@@ -170,7 +170,7 @@ In case of Umbrel, the full command is different:
 alias bos="docker run -it --rm --network=umbrel_main_network --add-host=bvb.local:10.21.21.9 -v /mnt/bvb-volume/umbrel/.bos:/home/node/.bos -v /mnt/bvb-volume/umbrel/app-data/lightning/data/lnd:/home/node/.lnd alexbosworth/balanceofsatoshis"
 ```
 
-where the IP, is the IP you can find as LND_IP in file .env in the main dir of your Umbrel installation. Please also pay attention to the path to full data directory. In our case it was a VPS so it is /mnt/bvb-volume/umbrel. In case of raspberry it is different. Run `df -m` command to see the mounted partition's directory, this is the correct path
+where the IP, is the IP you can find as LND_IP in file .env in the main dir of your Umbrel installation. Please also pay attention to the path to full data directory. In our case it was a VPS so it is `/mnt/bvb-volume/umbrel`. In case of raspberry it is different. Run `df -m` command to see the mounted partition's directory, this is the correct path
 
 
 ### Run the telegram daemon
@@ -199,7 +199,7 @@ bos telegram --connect CONNECT_CODE
 docker pull accumulator/charge-lnd
 ```
 
-Now create configuration file dir. Please bear in mind that in our case, the user is 'dev' so ~ is /home/dev
+Now create configuration file dir. Please bear in mind that in our case, the user is `dev` so ~ is `/home/dev`
 
 ```
 mkdir ~/charge-lnd
