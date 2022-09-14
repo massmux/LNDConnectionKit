@@ -213,4 +213,36 @@ Now put on the .profile file of your user (not root), the following:
 alias charge-lnd="docker run --rm -e LND_DIR=/data/.lnd -v /home/dev/charge-lnd:/app -v /home/dev/lnd:/data/.lnd -e GRPC_LOCATION=xxxx.voltageapp.io:10009 accumulator/charge-lnd"
 ```
 
+## Install and configure LNDg
+
+
+- Clone respository git clone https://github.com/cryptosharks131/lndg.git
+- cd into the repo cd lndg
+- set a docker-compose.yml like this:
+
+```
+version: "3.7"
+
+
+services:
+  lndg:
+    build: .
+    volumes:
+      - /home/dev/lnd:/root/.lnd:ro
+      - /home/dev/lndg/data:/lndg/data:rw
+    command:
+      - sh
+      - -c
+      - python initialize.py -net 'mainnet' -server 'XXXX.voltageapp.io:10009' -d && supervisord && python manage.py runserver 0.0.0.0:8889 
+    network_mode: "host"
+
+```
+
+- Deploy your docker image: docker-compose up -d
+- LNDg should now be available on port http://localhost:8889
+- Open and copy the password from output file: nano data/lndg-admin.txt
+- Use the password from the output file and the username lndg-admin to login
+
+NB: to run in https, configure a nginx proxy to pass to 8889
+
 TO BE CONTINUED ..
