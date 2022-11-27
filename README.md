@@ -255,7 +255,6 @@ get the binary tar from the link and check signatures:
 
 https://github.com/lightningnetwork/lnd/releases
 
-io ho preso:
 in this article i used the 0.15.5 version, so the full link to wget is:
 
 https://github.com/lightningnetwork/lnd/releases/download/v0.15.5-beta.rc2/lnd-linux-amd64-v0.15.5-beta.rc2.tar.gz
