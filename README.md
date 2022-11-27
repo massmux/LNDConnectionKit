@@ -245,4 +245,39 @@ services:
 
 NB: to run in https, configure a nginx proxy to pass to 8889
 
+
+
+## Install and configure lncli
+
+This install is needed if you use Voltage for example or a remote LND install.
+
+get the binary tar from the link and check signatures:
+
+https://github.com/lightningnetwork/lnd/releases
+
+io ho preso:
+in this article i used the 0.15.5 version, so the full link to wget is:
+
+https://github.com/lightningnetwork/lnd/releases/download/v0.15.5-beta.rc2/lnd-linux-amd64-v0.15.5-beta.rc2.tar.gz
+
+then untar and put this alias in .bashrc file
+
+```
+alias lncli="~/lncli/lnd-linux-amd64-v0.15.5-beta.rc2/lncli --rpcserver=XXXX.m.voltageapp.io:10009 --macaroonpath=/home/dev/lnd/data/chain/bitcoin/mainnet/admin.macaroon  
+--tlscertpath=\"\" "
+```
+
+where:
+
+- ~/lncli/lnd-linux-amd64-v0.15.5-beta.rc2/lncli this is the full path to the binary
+- /home/dev/lnd/data/chain/bitcoin/mainnet/admin.macaroon  this is the full path to the admin.macaroon, which you previously downloaded or caked.
+
+now just test it:
+
+```
+lncli getinfo
+```
+
+
+
 TO BE CONTINUED ..
