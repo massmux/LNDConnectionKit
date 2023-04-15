@@ -340,7 +340,16 @@ server {
 
 Please note that the allow/deny section is optional and required to restrict access to your only IP. This is suggested for security reasons.
 
-Now restart nginx. Now 
+Now restart nginx.
+
+In order to run torq:
+
+```
+cd ~/.torq
+./start-torq
+```
+
+at first run the needed images will be downloaded.
 
 - connect to torq with your browser at https://torq.example.com
 - from the GUI in settings section for adding your node.
