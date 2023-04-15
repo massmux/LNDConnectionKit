@@ -278,5 +278,79 @@ lncli getinfo
 ```
 
 
+## Install and configure TORQ
+
+ref: https://github.com/lncapital/torq
+
+first of all download the install script
+
+```
+curl -fsSL https://torq.sh
+```
+
+then run it with
+
+```
+bash torq.sh
+```
+
+follow the procedure. For this install, choose "host" as network connection. It will install all the scripts in default dir .torq . Then do not configure the torq.conf file, because not necessary. do:
+
+- download the tls.crt file and read-only macaroon from voltage or your node
+- define a public domain for your install. for example: torq.example.com . You must point DNS record to your TORQ machine
+
+get the certificate for your domain
+
+```
+sudo certbot certonly --manual --preferred-challenges dns
+```
+
+Now configure nginx. Add this new site, with file torq.example.com.conf and this content
+
+```
+server {
+        # torq
+        listen 443 ssl;
+        server_name torq.gwoq.com;
+
+        # allow only for your connection IP or VPN
+        allow  1.2.3.4;
+        allow  xx::/64;
+        deny   all;
+
+        access_log /var/log/nginx/reverse-access.log;
+        error_log /var/log/nginx/reverse-error.log;
+
+        location / {
+                proxy_pass http://127.0.0.1:8080;
+
+                proxy_redirect off;
+                proxy_set_header Host $http_host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto https;
+  }
+        ssl on;
+        ssl_certificate /etc/letsencrypt/live/torq.example.com/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/torq.example.com/privkey.pem;
+
+}
+
+```
+
+Please note that the allow/deny section is optional and required to restrict access to your only IP. This is suggested for security reasons.
+
+Now restart nginx. Now 
+
+- connect to torq with your browser at https://torq.example.com
+- from the GUI in settings section for adding your node.
+- in case of voltage put yourcname.voltageapp.io:10009
+- upload your tls.crt file and macaroon. it does not matter if hex or not.
+
+Now you should be able to connect.
+
+
+
+
 
 TO BE CONTINUED ..
