@@ -311,7 +311,7 @@ Now configure nginx. Add this new site, with file torq.example.com.conf and this
 server {
         # torq
         listen 443 ssl;
-        server_name torq.gwoq.com;
+        server_name torq.example.com;
 
         # allow only for your connection IP or VPN
         allow  1.2.3.4;
